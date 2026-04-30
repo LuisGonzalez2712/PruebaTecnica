@@ -23,39 +23,53 @@ Reglas
 ● Debes usar una pila para resolver el problema.
 ● El orden de apertura y cierre es importante.*/
 
-import java.util.*;
+import java.util.*; // Importa estructuras necesarias
 
 public class Ejercicio3_Pila {
+
+    // Método que valida si los paréntesis están balanceados
     public static boolean isBalanced(String s) {
+
+        // Pila (LIFO): último en entrar, primero en salir
         Stack<Character> stack = new Stack<>();
+
+        // Mapa que relaciona cierres con aperturas
         Map<Character, Character> pairs = new HashMap<>();
         pairs.put(')', '(');
         pairs.put(']', '[');
         pairs.put('}', '{');
 
+        // Recorre cada carácter de la cadena
         for (char c : s.toCharArray()) {
+
+            // Si es un paréntesis de apertura
             if (pairs.containsValue(c)) {
-                stack.push(c); // Si es un paréntesis de apertura, lo agregamos a la pila
+
+                // Lo agrega a la pila
+                stack.push(c);
+
             } else if (pairs.containsKey(c)) {
+
+                // Si es de cierre y la pila está vacía → error
                 if (stack.isEmpty()) {
-                    return false; // Si la pila está vacía o el paréntesis no coincide, no está balanceado
+                    return false;
                 }
-                stack.pop(); // Sacamos el elemento de la pila
+
+                // Saca el último elemento de la pila
+                stack.pop();
             }
         }
 
-        return stack.isEmpty(); // Al final, la pila debe estar vacía para que esté balanceado
+        // Si la pila queda vacía, está balanceado
+        return stack.isEmpty();
     }
 
     public static void main(String[] args) {
-        String test1 = "([]){}";
-        String test2 = "([)]";
-        String test3 = "(((";
-        String test4 = "";
 
-        System.out.println(isBalanced(test1)); // true
-        System.out.println(isBalanced(test2)); // false
-        System.out.println(isBalanced(test3)); // false
-        System.out.println(isBalanced(test4)); // true
+        // Casos de prueba
+        System.out.println(isBalanced("([]){}")); // true
+        System.out.println(isBalanced("([)]"));   // false
+        System.out.println(isBalanced("((("));    // false
+        System.out.println(isBalanced(""));       // true
     }
 }
